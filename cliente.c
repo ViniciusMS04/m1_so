@@ -1,3 +1,4 @@
+// cliente.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,11 +13,11 @@ void enviar_requisicao(const char *comando, int id, const char *nome) {
         exit(1);
     }
 
-    memset(&req, 0, sizeof(req));
     Requisicao req;
-    strcpy(req.comando, comando);
+    memset(&req, 0, sizeof(req));
+    strncpy(req.comando, comando, sizeof(req.comando) - 1);
     req.registro.id = id;
-    strncpy(req.registro.nome, nome, sizeof(req.registro.nome));
+    strncpy(req.registro.nome, nome, sizeof(req.registro.nome) - 1);
 
     write(fd, &req, sizeof(req));
     close(fd);
@@ -33,22 +34,22 @@ int main() {
         printf("3. Buscar (SELECT)\n");
         printf("4. Atualizar (UPDATE)\n");
         printf("5. Sair\n");
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
-        getchar(); // limpar '\n'
+        getchar();
 
         if (opcao == 5) break;
 
         printf("Digite o ID: ");
         scanf("%d", &id);
-        getchar(); // limpar '\n'
+        getchar();
 
         if (opcao == 1 || opcao == 4) {
             printf("Digite o nome: ");
             fgets(nome, sizeof(nome), stdin);
-            nome[strcspn(nome, "\n")] = '\0'; // remover \n
+            nome[strcspn(nome, "\n")] = '\0';
         } else {
-            strcpy(nome, ""); // nome não é necessário
+            strcpy(nome, "");
         }
 
         switch (opcao) {
@@ -65,7 +66,7 @@ int main() {
                 enviar_requisicao("UPDATE", id, nome);
                 break;
             default:
-                printf("Opção inválida!\n");
+                printf("Opcao invalida!\n");
         }
     }
 

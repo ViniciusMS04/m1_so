@@ -1,3 +1,4 @@
+// banco.h
 #ifndef BANCO_H
 #define BANCO_H
 
@@ -11,7 +12,7 @@ typedef struct {
 } Registro;
 
 typedef struct {
-    char comando[10]; 
+    char comando[10]; // INSERT, DELETE, SELECT, UPDATE
     Registro registro;
 } Requisicao;
 
